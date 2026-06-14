@@ -1,13 +1,21 @@
-# Deploying CMAP to Vercel (via GitHub Actions)
+# Deploying to Vercel (via GitHub Actions)
 
-The workflow `.github/workflows/deploy.yml` runs the tests on every push/PR to `main`, and — only
-if they pass — builds and deploys to Vercel using the Vercel CLI:
+The workflow `.github/workflows/deploy.yml` runs **two gates** on every push/PR to `main` — the unit
+tests (`test`) and the Playwright browser smoke (`e2e`) — and only if **both** pass does it build
+and deploy to Vercel using the Vercel CLI:
 
 - **Push to `main`** → deploys to **production**.
 - **Pull request to `main`** → deploys a **preview**.
 
-It is intentionally a CLI-driven Action (not Vercel's native Git integration) so the test gate and
-build run inside GitHub Actions and you keep full control of the pipeline.
+```
+push/PR → test ─┐
+                ├─ deploy (needs both)
+         e2e ───┘
+```
+
+It is intentionally a CLI-driven Action (not Vercel's native Git integration) so the gates and
+build run inside GitHub Actions and you keep full control of the pipeline. See
+[TESTING.md](TESTING.md) for what each gate covers.
 
 ## One-time setup
 
