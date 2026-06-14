@@ -1,9 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { AssessmentResult } from "@/lib/types";
+import { AssessmentResult, StandardsSummary } from "@/lib/types";
 
-export default function ExportButton({ result }: { result: AssessmentResult }) {
+export default function ExportButton({
+  result,
+  reportTitle,
+  standards,
+}: {
+  result: AssessmentResult;
+  reportTitle?: string;
+  standards?: StandardsSummary[];
+}) {
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -17,7 +25,9 @@ export default function ExportButton({ result }: { result: AssessmentResult }) {
         import("@react-pdf/renderer"),
         import("./ReportPdf"),
       ]);
-      const blob = await pdf(<ReportDocument result={result} />).toBlob();
+      const blob = await pdf(
+        <ReportDocument result={result} reportTitle={reportTitle} standards={standards} />
+      ).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;

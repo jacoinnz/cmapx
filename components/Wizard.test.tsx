@@ -1,6 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Wizard from "./Wizard";
-import { Category, Question } from "@/lib/types";
+import { AnswerOption, Category, Question } from "@/lib/types";
+
+const scale: AnswerOption[] = [
+  { value: "yes", label: "Yes", credit: 1 },
+  { value: "no", label: "No", credit: 0 },
+  { value: "unsure", label: "Not sure", credit: 0 },
+];
 
 const categories: Category[] = [
   { id: "access", ownerLabel: "Who can get in", description: "d1", threat: "t1" },
@@ -23,6 +29,7 @@ function setup() {
       categories={categories}
       questions={questions}
       answers={answers}
+      answerScale={scale}
       onAnswer={onAnswer}
       onComplete={onComplete}
     />

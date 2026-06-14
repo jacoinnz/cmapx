@@ -1,27 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { Answer, AnswerMap, Category, Question } from "@/lib/types";
-
-const OPTIONS: { value: Answer; label: string }[] = [
-  { value: "yes", label: "Yes" },
-  { value: "no", label: "No" },
-  { value: "unsure", label: "Not sure" },
-];
+import { Answer, AnswerMap, AnswerOption, Category, Question } from "@/lib/types";
 
 function QuestionRow({
   question,
   value,
+  scale,
   onAnswer,
 }: {
   question: Question;
   value: Answer | undefined;
+  scale: AnswerOption[];
   onAnswer: (a: Answer) => void;
 }) {
   const [showHelp, setShowHelp] = useState(false);
   return (
     <div className="question">
       <p className="q-text">{question.text}</p>
+      {question.standards && question.standards.length > 0 && (
+        <div className="q-standards">
+          {question.standards.map((s) => (
+            <span className="std-tag" key={s}>
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
       {question.helpText && (
         <>
           <button className="help-toggle" onClick={() => setShowHelp((s) => !s)}>
@@ -31,11 +36,12 @@ function QuestionRow({
         </>
       )}
       <div className="answers" role="group" aria-label={question.text}>
-        {OPTIONS.map((o) => (
+        {scale.map((o) => (
           <button
             key={o.value}
             className="answer-btn"
             data-selected={value === o.value ? o.value : undefined}
+            data-on={value === o.value ? "true" : undefined}
             aria-pressed={value === o.value}
             onClick={() => onAnswer(o.value)}
           >
@@ -51,12 +57,14 @@ export default function Wizard({
   categories,
   questions,
   answers,
+  answerScale,
   onAnswer,
   onComplete,
 }: {
   categories: Category[];
   questions: Question[];
   answers: AnswerMap;
+  answerScale: AnswerOption[];
   onAnswer: (id: string, a: Answer) => void;
   onComplete: () => void;
 }) {
@@ -91,6 +99,7 @@ export default function Wizard({
           key={q.id}
           question={q}
           value={answers[q.id]}
+          scale={answerScale}
           onAnswer={(a) => onAnswer(q.id, a)}
         />
       ))}

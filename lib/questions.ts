@@ -1,4 +1,11 @@
-import { Category, Question } from "./types";
+import { AnswerOption, Category, Question } from "./types";
+
+// Business path answer scale: Yes = full credit, anything else is a gap.
+export const businessAnswerScale: AnswerOption[] = [
+  { value: "yes", label: "Yes", credit: 1 },
+  { value: "no", label: "No", credit: 0 },
+  { value: "unsure", label: "Not sure", credit: 0 },
+];
 
 // Owner-facing categories. `threat` is the plain consequence shown in the SWOT
 // "Threats" quadrant when the category is a gap. No security jargon anywhere.

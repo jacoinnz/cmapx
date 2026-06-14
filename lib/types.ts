@@ -1,16 +1,19 @@
 // Domain contracts for the CMAP assessment. Pure data — no UI, no I/O.
 
-export type Answer = "yes" | "no" | "unsure";
+// An answer is a scale value (e.g. "yes" or "largely"); scales are data-driven.
+export type Answer = string;
 
 export type QuestionKind = "maturity" | "exposure";
 
-export type CategoryId =
-  | "access"
-  | "updates"
-  | "backups"
-  | "detection"
-  | "people"
-  | "response";
+// Category ids are free strings so different assessments can define their own domains.
+export type CategoryId = string;
+
+// One selectable answer on a scale, with the maturity credit it earns (0..1).
+export interface AnswerOption {
+  value: string;
+  label: string;
+  credit: number;
+}
 
 export interface Category {
   id: CategoryId;
@@ -31,10 +34,12 @@ export interface Question {
   weight: number;
   kind: QuestionKind;
   categoryId: CategoryId;
-  /** Maturity questions: plain next step shown when the answer is not "yes". */
+  /** Maturity questions: plain next step shown when the answer is not full. */
   recommendation?: string;
   /** Exposure questions: plain reason shown when the answer is "yes"/"unsure". */
   exposureReason?: string;
+  /** Standards/frameworks this question maps to (e.g. "NZISM", "Essential Eight"). */
+  standards?: string[];
 }
 
 export type AnswerMap = Record<string, Answer>;
@@ -85,9 +90,17 @@ export interface SwotResult {
   threats: string[];
 }
 
+/** Per-standard coverage, for the IT assessment's standards matrix. */
+export interface StandardsSummary {
+  standard: string;
+  scorePct: number;
+  questionCount: number;
+}
+
 export interface AssessmentResult {
   maturity: MaturityResult;
-  insurance: InsuranceResult;
+  /** Null when the assessment doesn't evaluate insurance (e.g. the IT path). */
+  insurance: InsuranceResult | null;
   swot: SwotResult;
   nextSteps: NextStep[];
 }

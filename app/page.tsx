@@ -1,31 +1,6 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { Answer, AnswerMap } from "@/lib/types";
-import { categories, questions } from "@/lib/questions";
-import { scoreAssessment } from "@/lib/scoring";
-import Wizard from "@/components/Wizard";
-import Results from "@/components/Results";
+import Link from "next/link";
 
 export default function Home() {
-  // All answers live here in memory only — never persisted, never sent anywhere.
-  const [answers, setAnswers] = useState<AnswerMap>({});
-  const [done, setDone] = useState(false);
-
-  const result = useMemo(
-    () => scoreAssessment(answers, questions, categories),
-    [answers]
-  );
-
-  const handleAnswer = (id: string, a: Answer) =>
-    setAnswers((prev) => ({ ...prev, [id]: a }));
-
-  const restart = () => {
-    setAnswers({});
-    setDone(false);
-    if (typeof window !== "undefined") window.scrollTo(0, 0);
-  };
-
   return (
     <>
       <header className="site-header">
@@ -36,8 +11,8 @@ export default function Home() {
           </div>
           <h1>Cybersecurity Health Check</h1>
           <p>
-            A free, plain-English check for New Zealand businesses. No tech knowledge needed —
-            answer a few questions about how you work and see where you stand.
+            A free, private check of how well your organisation is protected against cyber threats.
+            Choose the version that fits you — answer a few questions and see where you stand.
           </p>
           <span className="privacy-note">
             🔒 We store nothing. Your answers stay in your browser and disappear when you close the tab.
@@ -46,24 +21,36 @@ export default function Home() {
       </header>
 
       <main className="container">
-        {done ? (
-          <Results result={result} onRestart={restart} />
-        ) : (
-          <Wizard
-            categories={categories}
-            questions={questions}
-            answers={answers}
-            onAnswer={handleAnswer}
-            onComplete={() => {
-              setDone(true);
-              if (typeof window !== "undefined") window.scrollTo(0, 0);
-            }}
-          />
-        )}
+        <div className="choice-grid">
+          <Link href="/business" className="choice-card">
+            <div className="choice-icon" aria-hidden>
+              🏢
+            </div>
+            <h2>Cybersecurity for business owners</h2>
+            <p>
+              Plain-English questions about how you run your business. No technical knowledge needed.
+              Get your maturity, a SWOT, practical next steps, and whether to consider cyber insurance.
+            </p>
+            <span className="choice-cta">Start the business check →</span>
+          </Link>
+
+          <Link href="/it" className="choice-card">
+            <div className="choice-icon" aria-hidden>
+              🛡️
+            </div>
+            <h2>Cybersecurity for IT people</h2>
+            <p>
+              A technical control assessment mapped to NZ standards (NZISM, PSR, Essential Eight,
+              ISO 27001, HISF). Rate your maturity and get a SWOT, standards coverage and remediation
+              priorities.
+            </p>
+            <span className="choice-cta">Start the technical check →</span>
+          </Link>
+        </div>
 
         <p className="footer">
-          CMAP is an informational tool only. It is not affiliated with any insurer and does not
-          sell insurance. For decisions about cover, speak to a licensed adviser.
+          This is an informational tool only. It is not affiliated with any insurer and does not sell
+          insurance. For decisions about cover, speak to a licensed adviser.
         </p>
       </main>
     </>
