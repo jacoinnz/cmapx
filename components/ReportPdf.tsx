@@ -10,7 +10,7 @@ import { AssessmentResult } from "@/lib/types";
 const c = {
   ink: "#0b1220",
   soft: "#44516a",
-  brand: "#0e7490",
+  brand: "#2563eb",
   line: "#e3e8f0",
   good: "#16a34a",
   warn: "#d97706",

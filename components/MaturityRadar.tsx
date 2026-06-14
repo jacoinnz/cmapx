@@ -24,8 +24,8 @@ export default function MaturityRadar({ scores }: { scores: CategoryScore[] }) {
           <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
           <Radar
             dataKey="score"
-            stroke="#0e7490"
-            fill="#14b8a6"
+            stroke="#2563eb"
+            fill="#38bdf8"
             fillOpacity={0.45}
           />
         </RadarChart>

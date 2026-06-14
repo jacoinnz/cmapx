@@ -31,7 +31,7 @@ export default function Home() {
       <header className="site-header">
         <div className="container">
           <div className="brand">
-            <span className="logo-badge">C</span>
+            <span className="logo-badge" aria-hidden />
             <strong>Cybersecurity Maturity Health Check</strong>
           </div>
           <h1>Cybersecurity Health Check</h1>
