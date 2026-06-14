@@ -1,5 +1,7 @@
 # CMAP — Cyber Maturity Assessment Platform (NZ)
 
+[![Deploy to Vercel](https://github.com/jacoinnz/cmapx/actions/workflows/deploy.yml/badge.svg)](https://github.com/jacoinnz/cmapx/actions/workflows/deploy.yml)
+
 A free, **fully client-side** cybersecurity maturity self-check for New Zealand businesses.
 A business owner with zero security knowledge answers ~30 plain-English Yes / No / Not-sure
 questions and gets:
