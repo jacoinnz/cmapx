@@ -28,8 +28,31 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  # Browser smoke test: drives the real static build end to end (wizard -> results -> PDF).
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Run e2e smoke test
+        run: npm run test:e2e
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
   deploy:
-    needs: test
+    needs: [test, e2e]
     runs-on: ubuntu-latest
     # Skip if the Vercel secrets aren't configured yet, so the repo still builds.
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
