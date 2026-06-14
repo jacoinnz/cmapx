@@ -36,6 +36,9 @@ body {
 
 .site-header { padding: 40px 0 28px; color: #fff; }
 .site-header .brand { display: flex; align-items: center; gap: 12px; }
+.site-header .brand-link { text-decoration: none; color: inherit; width: fit-content; border-radius: 2px; }
+.site-header .brand-link:hover strong { text-decoration: underline; }
+.site-header .brand-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .logo-badge {
   width: 40px; height: 40px; border-radius: 2px;
   background: linear-gradient(135deg, var(--accent), var(--brand));
