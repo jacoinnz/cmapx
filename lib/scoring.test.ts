@@ -1,4 +1,4 @@
-import { scoreAssessment } from "./scoring";
+import { scoreAssessment, buildResultsSummary } from "./scoring";
 import { Category, Question, AnswerMap } from "./types";
 
 const categories: Category[] = [
@@ -99,6 +99,26 @@ describe("scoreAssessment — insurance exposure", () => {
     const r = scoreAssessment(answers, questions, categories);
     expect(r.maturity.level).toBeLessThanOrEqual(2);
     expect(r.insurance.rating).toBe("strong");
+  });
+});
+
+describe("buildResultsSummary", () => {
+  it("summarises level, counts and the strongest/weakest areas", () => {
+    const answers: AnswerMap = {
+      acc1: "yes", acc2: "yes",
+      bak1: "no", bak2: "unsure",
+      exp_data: "yes", exp_online: "yes",
+    };
+    const result = scoreAssessment(answers, questions, categories);
+    const s = buildResultsSummary(result);
+
+    expect(s.levelLabel).toBe(result.maturity.levelLabel);
+    expect(s.strengthCount).toBe(1);
+    expect(s.weaknessCount).toBe(1);
+    expect(s.actionCount).toBe(result.nextSteps.length);
+    expect(s.strongest).toEqual({ label: "Who can get in", pct: 100 });
+    expect(s.weakest).toEqual({ label: "Your safety net", pct: 0 });
+    expect(s.lowestStandard).toBeUndefined();
   });
 });
 

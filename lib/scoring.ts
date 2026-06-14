@@ -177,6 +177,55 @@ export function scoreAssessment(
   };
 }
 
+/** At-a-glance figures for the results summary card. */
+export interface ResultsSummary {
+  level: number;
+  levelLabel: string;
+  overallPct: number;
+  strengthCount: number;
+  weaknessCount: number;
+  actionCount: number;
+  strongest?: { label: string; pct: number };
+  weakest?: { label: string; pct: number };
+  /** Lowest-scoring standard (IT path only). */
+  lowestStandard?: { standard: string; pct: number };
+}
+
+/** Derive the headline summary from a scored result (pure; safe on empty input). */
+export function buildResultsSummary(
+  result: AssessmentResult,
+  standards?: StandardsSummary[]
+): ResultsSummary {
+  const cats = result.maturity.categoryScores;
+  let strongest: ResultsSummary["strongest"];
+  let weakest: ResultsSummary["weakest"];
+  if (cats.length) {
+    const sorted = [...cats].sort((a, b) => b.scorePct - a.scorePct);
+    const top = sorted[0];
+    const bottom = sorted[sorted.length - 1];
+    strongest = { label: top.ownerLabel, pct: top.scorePct };
+    weakest = { label: bottom.ownerLabel, pct: bottom.scorePct };
+  }
+
+  let lowestStandard: ResultsSummary["lowestStandard"];
+  if (standards && standards.length) {
+    const lowest = [...standards].sort((a, b) => a.scorePct - b.scorePct)[0];
+    lowestStandard = { standard: lowest.standard, pct: lowest.scorePct };
+  }
+
+  return {
+    level: result.maturity.level,
+    levelLabel: result.maturity.levelLabel,
+    overallPct: result.maturity.overallPct,
+    strengthCount: result.swot.strengths.length,
+    weaknessCount: result.swot.weaknesses.length,
+    actionCount: result.nextSteps.length,
+    strongest,
+    weakest,
+    lowestStandard,
+  };
+}
+
 /**
  * Per-standard coverage for the IT path's standards matrix: the weighted maturity
  * percentage across the maturity questions tagged with each standard.

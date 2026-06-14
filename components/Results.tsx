@@ -5,6 +5,7 @@ import { AssessmentResult, StandardsSummary } from "@/lib/types";
 import SwotGrid from "./SwotGrid";
 import InsurancePanel from "./InsurancePanel";
 import ExportButton from "./ExportButton";
+import ResultsSummary from "./ResultsSummary";
 
 // Recharts touches the DOM, so load it client-only.
 const MaturityRadar = dynamic(() => import("./MaturityRadar"), {
@@ -32,12 +33,14 @@ export default function Results({
   result,
   onRestart,
   eyebrow = "Your cyber maturity",
+  summaryLabel = "cybersecurity",
   reportTitle,
   standards,
 }: {
   result: AssessmentResult;
   onRestart: () => void;
   eyebrow?: string;
+  summaryLabel?: string;
   reportTitle?: string;
   standards?: StandardsSummary[];
 }) {
@@ -45,6 +48,8 @@ export default function Results({
 
   return (
     <div>
+      <ResultsSummary result={result} standards={standards} label={summaryLabel} />
+
       <div className="card">
         <div className="maturity-headline">
           <div className="cat-eyebrow">{eyebrow}</div>

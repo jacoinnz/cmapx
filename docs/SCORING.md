@@ -69,6 +69,13 @@ questions; otherwise `result.insurance` is `null`.
 - `reasons` = the `exposureReason` of every exposure question answered `yes`/`unsure`. The Privacy
   Act 2020 is named whenever the customer-data exposure question applies.
 
+## Results summary
+
+`buildResultsSummary(result, standards?)` derives the at-a-glance figures shown in the summary card
+at the top of the results: level + label + overall %, the strength/weakness/action counts, and the
+strongest and weakest categories (plus the lowest-scoring standard on the IT path). Pure and safe on
+empty input.
+
 ## Standards coverage (IT path only)
 
 `summariseStandards` returns, per standard, the weighted maturity % across the maturity questions

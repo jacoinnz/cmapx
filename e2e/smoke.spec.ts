@@ -38,10 +38,13 @@ test("business path: complete assessment and export a PDF", async ({ page }) => 
 
   await completeWizard(page, "Yes");
 
+  await expect(page.getByText("At a glance")).toBeVisible();
   await expect(page.locator(".maturity-level")).toHaveText("Strong");
-  await expect(page.getByText(/Level 5 of 5/i)).toBeVisible();
+  await expect(page.locator(".maturity-sub")).toContainText("Level 5 of 5");
   await expect(page.locator("svg.recharts-surface")).toBeVisible();
-  await expect(page.getByText(/Strong case for cyber liability insurance/i)).toBeVisible();
+  await expect(
+    page.getByText("Strong case for cyber liability insurance", { exact: true })
+  ).toBeVisible();
   await expect(page.getByText(/Privacy Act 2020/i).first()).toBeVisible();
   await expect(page.getByText(/not financial or insurance advice/i)).toBeVisible();
 
@@ -56,6 +59,7 @@ test("IT path: complete technical assessment with standards coverage", async ({ 
   // 4-level scale; answer "Fully" to everything.
   await completeWizard(page, "Fully");
 
+  await expect(page.getByText("At a glance")).toBeVisible();
   await expect(page.locator(".maturity-level")).toHaveText("Strong");
   await expect(page.locator("svg.recharts-surface")).toBeVisible();
   // Standards coverage matrix is present with the NZ standards.

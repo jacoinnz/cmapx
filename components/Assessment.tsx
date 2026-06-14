@@ -17,6 +17,8 @@ export interface AssessmentConfig {
   /** Standards to summarise in results (IT path). */
   standards?: string[];
   resultsEyebrow?: string;
+  /** Word used in the summary sentence: "Your <label> maturity is …". */
+  summaryLabel?: string;
   reportTitle?: string;
 }
 
@@ -77,6 +79,7 @@ export default function Assessment(config: AssessmentConfig) {
             result={result}
             onRestart={restart}
             eyebrow={config.resultsEyebrow}
+            summaryLabel={config.summaryLabel}
             reportTitle={config.reportTitle}
             standards={standardsSummary}
           />

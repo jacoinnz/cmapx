@@ -14,6 +14,7 @@ export default function ItPage() {
       computeInsurance={false}
       standards={IT_STANDARDS}
       resultsEyebrow="Your technical maturity"
+      summaryLabel="technical"
       reportTitle="Your Technical Cybersecurity Maturity Report"
     />
   );
