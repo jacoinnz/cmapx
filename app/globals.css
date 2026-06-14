@@ -16,7 +16,7 @@
   --bad-bg: #fef2f2;
   --radius: 14px;
   --shadow: 0 10px 30px rgba(11, 18, 32, 0.08);
-  --maxw: 820px;
+  --maxw: 1200px;
 }
 
 * { box-sizing: border-box; }

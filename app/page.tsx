@@ -32,9 +32,9 @@ export default function Home() {
         <div className="container">
           <div className="brand">
             <span className="logo-badge">C</span>
-            <strong>CMAP</strong>
+            <strong>Cybersecurity Maturity Health Check</strong>
           </div>
-          <h1>How strong is your business against cyber threats?</h1>
+          <h1>Cybersecurity Health Check</h1>
           <p>
             A free, plain-English check for New Zealand businesses. No tech knowledge needed —
             answer a few questions about how you work and see where you stand.

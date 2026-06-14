@@ -37,6 +37,12 @@ describe("question content integrity", () => {
     const ids = questions.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it("every question explains why it matters (helpText)", () => {
+    questions.forEach((q) => {
+      expect(Boolean(q.helpText && q.helpText.trim().length)).toBe(true);
+    });
+  });
 });
 
 describe("real content + engine integration", () => {

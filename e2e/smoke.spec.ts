@@ -7,7 +7,7 @@ test("complete the assessment and export a PDF report", async ({ page }) => {
 
   // Landing
   await expect(
-    page.getByRole("heading", { name: /How strong is your business/i })
+    page.getByRole("heading", { name: /Cybersecurity Health Check/i })
   ).toBeVisible();
   await expect(page.getByText(/We store nothing/i)).toBeVisible();
 
