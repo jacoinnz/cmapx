@@ -223,6 +223,20 @@ main.container { padding-top: 24px; }
 .trend-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--accent)); }
 .trend-pct { font-weight: 700; font-size: .9rem; text-align: right; }
 
+/* Benchmark band */
+.benchmark-lead { font-size: 1.05rem; margin: 6px 0 12px; }
+.benchmark-bar { height: 12px; background: #e7ecf4; border-radius: 2px; overflow: hidden; }
+.benchmark-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--accent)); }
+.benchmark-note { font-size: .8rem; color: var(--ink-soft); margin: 10px 0 0; font-style: italic; }
+
+/* Roadmap groups */
+.roadmap-group { margin-bottom: 18px; }
+.roadmap-group:last-child { margin-bottom: 0; }
+.roadmap-head { display: flex; align-items: center; gap: 10px; font-size: 1rem; margin: 0 0 12px; }
+.effort-badge { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 2px; }
+.effort-badge.quick { background: var(--good-bg); color: #0f7a3d; border: 1px solid #bbf7d0; }
+.effort-badge.project { background: #eff6ff; color: var(--brand-deep); border: 1px solid #bfdbfe; }
+
 /* Shareable result link */
 .share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .share-note { font-size: .82rem; color: var(--ink-soft); }
