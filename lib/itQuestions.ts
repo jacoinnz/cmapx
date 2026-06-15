@@ -68,6 +68,13 @@ export const itCategories: Category[] = [
     threat:
       "Without a practised plan, a containable incident becomes prolonged, costly and damaging.",
   },
+  {
+    id: "network",
+    ownerLabel: "Network & Boundary Security",
+    description: "Segmentation, perimeter firewalls, secure remote access and email authentication.",
+    threat:
+      "Flat networks and weak boundaries let one compromised host or spoofed email spread across the whole environment.",
+  },
 ];
 
 const m = (
@@ -245,9 +252,9 @@ export const itQuestions: Question[] = [
     "Exercises expose gaps before a real incident does.",
     "Run at least annual incident response exercises."),
   m("ir_report", "incident", ["PSR", "HISF", "NZISM"],
-    "Do staff know how and when to report incidents to CERT NZ / NCSC and the Privacy Commissioner?",
+    "Do staff know how and when to report incidents to the NCSC (which now includes the former CERT NZ) and the Privacy Commissioner?",
     "New Zealand has expected reporting channels, and the Privacy Act mandates some notifications.",
-    "Define external reporting paths (CERT NZ / NCSC and the Privacy Commissioner)."),
+    "Define external reporting paths (the NCSC, formerly CERT NZ, and the Privacy Commissioner)."),
   m("ir_contain", "incident", ["NZISM", "ISO 27001"],
     "Can you rapidly contain incidents (isolate hosts, revoke access, rotate credentials)?",
     "Fast containment limits the spread and the cost of an incident.",
@@ -256,4 +263,18 @@ export const itQuestions: Question[] = [
     "Is there a business continuity plan so critical services continue during a major disruption?",
     "Continuity planning keeps essential services running during a crisis.",
     "Maintain a business continuity plan for critical services."),
+
+  // ---- Network & Boundary Security ----
+  m("net_segmentation", "network", ["NZISM", "ISO 27001"],
+    "Are networks segmented (VLANs / security zones) to contain lateral movement, with management interfaces isolated?",
+    "Segmentation is an NCSC Critical Control and limits how far an intruder or ransomware can spread from a single foothold.",
+    "Segment networks into zones and isolate management interfaces to contain lateral movement.", 2),
+  m("net_boundary", "network", ["NZISM", "ISO 27001"],
+    "Are perimeter firewalls and secure remote access (VPN / ZTNA) enforced, with ingress/egress filtering reviewed?",
+    "NZISM requires controlled network boundaries; unfiltered egress is a common data-exfiltration and C2 path.",
+    "Enforce perimeter firewalls and secure remote access, and review ingress/egress filtering."),
+  m("net_email_auth", "network", ["NZISM", "ISO 27001"],
+    "Are SPF, DKIM and DMARC (with DMARC at enforce/reject) deployed across all sending domains?",
+    "Email authentication stops domain spoofing; DMARC enforcement is increasingly mandated for NZ organisations.",
+    "Deploy SPF, DKIM and DMARC at enforcement across all sending domains."),
 ];

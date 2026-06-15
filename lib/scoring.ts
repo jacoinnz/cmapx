@@ -25,8 +25,8 @@ const PRIVACY_ACT_THREAT =
   "If customer information is stolen, the Privacy Act 2020 can require you to notify the " +
   "Privacy Commissioner and affected people, with possible penalties.";
 
-// Default scale: business path (Yes = full credit, everything else = a gap).
-const DEFAULT_CREDIT: Record<string, number> = { yes: 1, no: 0, unsure: 0 };
+// Default scale: business path (Yes = full, Partly = half, everything else = a gap).
+const DEFAULT_CREDIT: Record<string, number> = { yes: 1, partly: 0.5, no: 0, unsure: 0 };
 
 const MAX_NEXT_STEPS = 12;
 

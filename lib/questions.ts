@@ -1,7 +1,17 @@
 import { AnswerOption, Category, Question } from "./types";
 
-// Business path answer scale: Yes = full credit, anything else is a gap.
+// Business path maturity scale: three levels so half-done controls aren't scored
+// as a total gap. Mirrors the NCSC Cyber Security Capability Maturity Model's
+// Yes / Partly / No response set. "Partly" earns half credit.
 export const businessAnswerScale: AnswerOption[] = [
+  { value: "yes", label: "Yes", credit: 1 },
+  { value: "partly", label: "Partly", credit: 0.5 },
+  { value: "no", label: "No", credit: 0 },
+];
+
+// Exposure questions are genuinely yes/no facts (e.g. "do you hold personal
+// data?"), so they keep a Yes / No / Not-sure scale rather than "Partly".
+export const exposureAnswerScale: AnswerOption[] = [
   { value: "yes", label: "Yes", credit: 1 },
   { value: "no", label: "No", credit: 0 },
   { value: "unsure", label: "Not sure", credit: 0 },
@@ -100,6 +110,15 @@ export const questions: Question[] = [
     text: "Do only the people who genuinely need it have 'administrator' or full-control access to your systems?",
     helpText: "Fewer all-powerful accounts means far less damage if one of them is ever compromised.",
     recommendation: "Limit administrator access to the few people who truly need it.",
+  },
+  {
+    id: "acc_firewall",
+    categoryId: "access",
+    kind: "maturity",
+    weight: 1,
+    text: "Is there a firewall or built-in security on your internet connection that controls what can reach your business network?",
+    helpText: "A firewall is a barrier between the internet and your systems, blocking unwanted or malicious traffic before it gets in. Most business routers include one — it just needs to be switched on.",
+    recommendation: "Make sure a firewall is switched on and protecting your network (your router or IT provider can confirm).",
   },
 
   // ---- Keeping things up to date (updates) ----
@@ -242,6 +261,15 @@ export const questions: Question[] = [
     helpText: "'Invoice scams' trick businesses into paying money straight to criminals by faking a supplier's email.",
     recommendation: "Always verify payment or bank-change requests using a known phone number.",
   },
+  {
+    id: "det_email_auth",
+    categoryId: "detection",
+    kind: "maturity",
+    weight: 1,
+    text: "Has your email been set up to stop criminals sending fake messages that look like they come from your business (using protections often called SPF, DKIM and DMARC)?",
+    helpText: "Without these protections, scammers can spoof your business name to trick your own customers and staff into paying fake invoices. Your IT provider or email host can turn them on.",
+    recommendation: "Ask your IT provider or email host to set up SPF, DKIM and DMARC so others can't send email as your business.",
+  },
 
   // ---- Your people (people) ----
   {
@@ -323,9 +351,9 @@ export const questions: Question[] = [
     categoryId: "response",
     kind: "maturity",
     weight: 1,
-    text: "Would you know that you can report a cyber attack or scam in New Zealand (for example to CERT NZ) and where to get help?",
-    helpText: "CERT NZ offers free help and guidance for NZ businesses — knowing it exists means you're not alone in a crisis.",
-    recommendation: "Note how to report an incident to CERT NZ for free help.",
+    text: "Would you know that you can report a cyber attack or scam in New Zealand (to the National Cyber Security Centre — NCSC, which now includes the former CERT NZ) and where to get help?",
+    helpText: "The NCSC (which absorbed CERT NZ) offers free help and guidance for NZ businesses — knowing it exists means you're not alone in a crisis.",
+    recommendation: "Note how to report an incident to the NCSC (formerly CERT NZ) for free help.",
   },
   {
     id: "res_downtime",
@@ -342,6 +370,7 @@ export const questions: Question[] = [
     id: "exp_personal_data",
     categoryId: "response",
     kind: "exposure",
+    scale: exposureAnswerScale,
     weight: 3,
     text: "Does your business hold personal information about customers or staff — like names, contact details, payment details or health information?",
     helpText: "Holding personal information brings legal duties under the Privacy Act 2020 if that information is ever breached.",
@@ -352,6 +381,7 @@ export const questions: Question[] = [
     id: "exp_online_income",
     categoryId: "response",
     kind: "exposure",
+    scale: exposureAnswerScale,
     weight: 2,
     text: "Would your business lose income or struggle to operate if your systems, website or online tools were down for a day?",
     helpText: "The more your income depends on systems being up, the more a single outage or attack costs you.",
@@ -362,6 +392,7 @@ export const questions: Question[] = [
     id: "exp_absorb_cost",
     categoryId: "response",
     kind: "exposure",
+    scale: exposureAnswerScale,
     weight: 2,
     text: "Would an unexpected bill of $50,000 or more — for recovery, legal help and notifying customers — be hard for your business to absorb?",
     helpText: "Cyber incidents often cost far more than expected once recovery, legal and notification costs add up.",
@@ -372,6 +403,7 @@ export const questions: Question[] = [
     id: "exp_regulated",
     categoryId: "response",
     kind: "exposure",
+    scale: exposureAnswerScale,
     weight: 1,
     text: "Does your business work in a regulated or sensitive area (such as health, finance, or supplying government), or have contracts that require you to protect data?",
     helpText: "Regulated and contracted work usually carries extra security obligations — and bigger consequences if breached.",
@@ -382,6 +414,7 @@ export const questions: Question[] = [
     id: "exp_payments",
     categoryId: "response",
     kind: "exposure",
+    scale: exposureAnswerScale,
     weight: 1,
     text: "Do you handle online payments or store customer card / payment details?",
     helpText: "Payment data is exactly what criminals want, so handling it raises both your risk and your responsibilities.",

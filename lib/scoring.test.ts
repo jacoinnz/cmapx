@@ -46,6 +46,16 @@ describe("scoreAssessment — maturity", () => {
     expect(backups.level).toBe("weakness");
   });
 
+  it("treats 'partly' as half credit in the overall percentage", () => {
+    const answers: AnswerMap = {
+      acc1: "partly", acc2: "partly", bak1: "partly", bak2: "partly",
+      exp_data: "no", exp_online: "no",
+    };
+    const r = scoreAssessment(answers, questions, categories);
+    // 4 maturity questions each at half credit = 50%
+    expect(r.maturity.overallPct).toBe(50);
+  });
+
   it("treats 'unsure' as a gap (no credit) in the overall percentage", () => {
     const answers: AnswerMap = {
       acc1: "yes", acc2: "yes", bak1: "no", bak2: "unsure",

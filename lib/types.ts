@@ -40,6 +40,8 @@ export interface Question {
   exposureReason?: string;
   /** Standards/frameworks this question maps to (e.g. "NZISM", "Essential Eight"). */
   standards?: string[];
+  /** Optional per-question answer scale. Falls back to the assessment's default scale. */
+  scale?: AnswerOption[];
 }
 
 export type AnswerMap = Record<string, Answer>;

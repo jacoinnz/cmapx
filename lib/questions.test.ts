@@ -1,4 +1,4 @@
-import { categories, questions } from "./questions";
+import { businessAnswerScale, exposureAnswerScale, categories, questions } from "./questions";
 import { scoreAssessment } from "./scoring";
 import { AnswerMap, CategoryId } from "./types";
 
@@ -13,14 +13,39 @@ describe("question content integrity", () => {
     });
   });
 
-  it("has 25–30 maturity questions, each with a recommendation and valid category", () => {
+  it("has 25–34 maturity questions, each with a recommendation and valid category", () => {
     const maturity = questions.filter((q) => q.kind === "maturity");
     expect(maturity.length).toBeGreaterThanOrEqual(25);
-    expect(maturity.length).toBeLessThanOrEqual(30);
+    expect(maturity.length).toBeLessThanOrEqual(34);
     maturity.forEach((q) => {
       expect(validIds.has(q.categoryId as CategoryId)).toBe(true);
       expect(q.recommendation && q.recommendation.length).toBeTruthy();
       expect(q.weight).toBeGreaterThan(0);
+    });
+  });
+
+  it("covers email authentication and a network firewall control", () => {
+    const text = questions.map((q) => `${q.text} ${q.helpText ?? ""}`).join(" ").toLowerCase();
+    expect(text).toContain("dmarc");
+    expect(text).toContain("firewall");
+  });
+
+  it("uses a three-level Yes/Partly/No scale for maturity, giving 'partly' half credit", () => {
+    expect(businessAnswerScale.map((o) => o.value)).toEqual(["yes", "partly", "no"]);
+    const partly = businessAnswerScale.find((o) => o.value === "partly")!;
+    expect(partly.credit).toBe(0.5);
+  });
+
+  it("keeps exposure questions on a Yes/No/Not-sure scale (no 'partly')", () => {
+    const exposure = questions.filter((q) => q.kind === "exposure");
+    exposure.forEach((q) => expect(q.scale).toBe(exposureAnswerScale));
+    expect(exposureAnswerScale.map((o) => o.value)).toEqual(["yes", "no", "unsure"]);
+  });
+
+  it("no longer references the disestablished 'CERT NZ' brand without NCSC", () => {
+    questions.forEach((q) => {
+      const blob = `${q.text} ${q.helpText ?? ""} ${q.recommendation ?? ""}`;
+      if (blob.includes("CERT NZ")) expect(blob).toContain("NCSC");
     });
   });
 

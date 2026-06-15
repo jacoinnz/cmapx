@@ -36,7 +36,7 @@ function QuestionRow({
         </>
       )}
       <div className="answers" role="group" aria-label={question.text}>
-        {scale.map((o) => (
+        {(question.scale ?? scale).map((o) => (
           <button
             key={o.value}
             className="answer-btn"

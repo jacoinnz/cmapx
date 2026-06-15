@@ -8,12 +8,25 @@ import {
 const validIds = new Set(itCategories.map((c) => c.id));
 
 describe("IT question content integrity", () => {
-  it("has eight control domains, each with a threat", () => {
-    expect(itCategories).toHaveLength(8);
+  it("has nine control domains, each with a threat", () => {
+    expect(itCategories).toHaveLength(9);
     itCategories.forEach((c) => {
       expect(c.ownerLabel.length).toBeGreaterThan(0);
       expect(c.threat.length).toBeGreaterThan(0);
     });
+  });
+
+  it("covers network/boundary controls: segmentation, email auth and firewall", () => {
+    const networkCat = itCategories.find((c) => c.id === "network");
+    expect(networkCat).toBeDefined();
+    const blob = itQuestions
+      .filter((q) => q.categoryId === "network")
+      .map((q) => `${q.text} ${q.helpText}`)
+      .join(" ")
+      .toLowerCase();
+    expect(blob).toContain("segment");
+    expect(blob).toContain("dmarc");
+    expect(blob).toContain("firewall");
   });
 
   it("has ~40 maturity questions, each fully specified", () => {
