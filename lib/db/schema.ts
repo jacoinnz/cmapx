@@ -1,4 +1,13 @@
-import { pgTable, serial, text, integer, timestamp, index } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  integer,
+  timestamp,
+  index,
+  primaryKey,
+  jsonb,
+} from "drizzle-orm/pg-core";
 
 /**
  * Anonymous, non-identifying score submissions that power live benchmarking.
@@ -16,3 +25,75 @@ export const submissions = pgTable(
 );
 
 export type Submission = typeof submissions.$inferSelect;
+
+// ---- Auth.js (Drizzle adapter) tables ----
+
+export const users = pgTable("user", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name"),
+  email: text("email").unique(),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  image: text("image"),
+});
+
+export const accounts = pgTable(
+  "account",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
+  },
+  (a) => ({ pk: primaryKey({ columns: [a.provider, a.providerAccountId] }) })
+);
+
+export const sessions = pgTable("session", {
+  sessionToken: text("sessionToken").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationTokens = pgTable(
+  "verificationToken",
+  {
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (vt) => ({ pk: primaryKey({ columns: [vt.identifier, vt.token] }) })
+);
+
+// ---- Cloud-synced results (one row per saved check, keyed to a user) ----
+
+export const results = pgTable(
+  "results",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    path: text("path").notNull(),
+    takenAt: timestamp("taken_at", { mode: "string" }).notNull(),
+    overallPct: integer("overall_pct").notNull(),
+    level: integer("level").notNull(),
+    levelLabel: text("level_label").notNull(),
+    categories: jsonb("categories").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({ userIdx: index("results_user_idx").on(t.userId) })
+);
+
+export type ResultRow = typeof results.$inferSelect;

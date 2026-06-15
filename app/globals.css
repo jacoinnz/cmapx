@@ -230,6 +230,7 @@ main.container { padding-top: 24px; }
 .benchmark-note { font-size: .8rem; color: var(--ink-soft); margin: 10px 0 0; font-style: italic; }
 .contrib { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 14px; }
 .contrib .btn { padding: 8px 16px; }
+.account-panel { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 
 /* Roadmap groups */
 .roadmap-group { margin-bottom: 18px; }

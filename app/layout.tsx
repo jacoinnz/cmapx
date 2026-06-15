@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 const SITE = "https://cmap-theta.vercel.app";
@@ -42,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-NZ">
       <body>
-        {children}
+        <SessionProvider>{children}</SessionProvider>
         <Analytics />
       </body>
     </html>

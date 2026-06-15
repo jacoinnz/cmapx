@@ -9,6 +9,7 @@ import ExportButton from "./ExportButton";
 import ResultsSummary from "./ResultsSummary";
 import HistoryTrend from "./HistoryTrend";
 import ShareButton from "./ShareButton";
+import AccountPanel from "./AccountPanel";
 import Roadmap from "./Roadmap";
 import BenchmarkBand from "./BenchmarkBand";
 import PathBridge from "./PathBridge";
@@ -124,6 +125,7 @@ export default function Results({
       <div className="card">
         <ExportButton result={result} reportTitle={reportTitle} standards={standards} />
         {path && <ShareButton result={result} path={path} />}
+        {path && <AccountPanel result={result} path={path} />}
       </div>
 
       <div style={{ textAlign: "center", marginBottom: 30 }}>
