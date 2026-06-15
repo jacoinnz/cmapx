@@ -76,6 +76,14 @@ describe("question content integrity", () => {
     expect(web.scale?.some((o) => o.value === "na")).toBe(true);
   });
 
+  it("frames behaviour questions as actions, not mere awareness", () => {
+    // reduce self-report bias: no maturity question should ask only "are you aware…"
+    const awarenessOnly = questions.filter(
+      (q) => q.kind === "maturity" && /^(are you aware|would you know that you can)/i.test(q.text)
+    );
+    expect(awarenessOnly).toHaveLength(0);
+  });
+
   it("every question explains why it matters (helpText)", () => {
     questions.forEach((q) => {
       expect(Boolean(q.helpText && q.helpText.trim().length)).toBe(true);

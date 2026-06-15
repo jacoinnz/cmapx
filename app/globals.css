@@ -90,6 +90,10 @@ main.container { padding-top: 24px; }
 .cat-eyebrow { color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
 .cat-title { font-size: 1.4rem; margin: 6px 0 4px; letter-spacing: -0.01em; }
 .cat-desc { color: var(--ink-soft); margin: 0 0 22px; }
+.honesty-note {
+  margin: -10px 0 18px; font-size: .85rem; color: var(--ink-soft);
+  background: #f1f5fb; border-radius: 2px; padding: 10px 14px;
+}
 
 .question { padding: 18px 0; border-top: 1px solid var(--line); }
 .question:first-of-type { border-top: 0; }

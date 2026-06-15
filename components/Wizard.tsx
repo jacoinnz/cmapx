@@ -118,6 +118,13 @@ export default function Wizard({
       <h2 className="cat-title">{category.ownerLabel}</h2>
       <p className="cat-desc">{category.description}</p>
 
+      {step === 0 && (
+        <p className="honesty-note">
+          Answer as things really are — there are no wrong answers, and your result is only as
+          useful as it is honest.
+        </p>
+      )}
+
       {catQuestions.map((q) => (
         <QuestionRow
           key={q.id}
