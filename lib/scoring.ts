@@ -184,6 +184,8 @@ export interface ResultsSummary {
   overallPct: number;
   strengthCount: number;
   weaknessCount: number;
+  /** Areas not yet at "strength" level (developing + weakness) — what the user can still improve. */
+  improveCount: number;
   actionCount: number;
   strongest?: { label: string; pct: number };
   weakest?: { label: string; pct: number };
@@ -219,6 +221,7 @@ export function buildResultsSummary(
     overallPct: result.maturity.overallPct,
     strengthCount: result.swot.strengths.length,
     weaknessCount: result.swot.weaknesses.length,
+    improveCount: cats.filter((c) => c.level !== "strength").length,
     actionCount: result.nextSteps.length,
     strongest,
     weakest,

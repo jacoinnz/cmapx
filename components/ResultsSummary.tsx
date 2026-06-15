@@ -32,7 +32,7 @@ export default function ResultsSummary({
       <div className="summary-stats">
         <Stat value={`${s.level}/5`} label={s.levelLabel} />
         <Stat value={`${s.strengthCount}`} label={s.strengthCount === 1 ? "strength" : "strengths"} />
-        <Stat value={`${s.weaknessCount}`} label="to improve" />
+        <Stat value={`${s.improveCount}`} label="to improve" />
         <Stat value={`${s.actionCount}`} label={s.actionCount === 1 ? "priority action" : "priority actions"} />
       </div>
 

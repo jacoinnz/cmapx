@@ -56,6 +56,19 @@ describe("scoreAssessment — maturity", () => {
     expect(r.maturity.overallPct).toBe(50);
   });
 
+  it("counts every non-strength area as 'to improve' even when none is a weakness", () => {
+    // all 'partly' => every category sits at 50% (developing): no strengths, no weaknesses
+    const answers: AnswerMap = {
+      acc1: "partly", acc2: "partly", bak1: "partly", bak2: "partly",
+      exp_data: "no", exp_online: "no",
+    };
+    const s = buildResultsSummary(scoreAssessment(answers, questions, categories));
+    expect(s.strengthCount).toBe(0);
+    expect(s.weaknessCount).toBe(0);
+    // both areas are still "to improve" — not a contradictory 0 alongside live actions
+    expect(s.improveCount).toBe(2);
+  });
+
   it("treats 'unsure' as a gap (no credit) in the overall percentage", () => {
     const answers: AnswerMap = {
       acc1: "yes", acc2: "yes", bak1: "no", bak2: "unsure",
@@ -125,6 +138,8 @@ describe("buildResultsSummary", () => {
     expect(s.levelLabel).toBe(result.maturity.levelLabel);
     expect(s.strengthCount).toBe(1);
     expect(s.weaknessCount).toBe(1);
+    // "to improve" = every area that isn't yet a strength (here: backups only)
+    expect(s.improveCount).toBe(1);
     expect(s.actionCount).toBe(result.nextSteps.length);
     expect(s.strongest).toEqual({ label: "Who can get in", pct: 100 });
     expect(s.weakest).toEqual({ label: "Your safety net", pct: 0 });
