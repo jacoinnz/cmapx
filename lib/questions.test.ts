@@ -13,10 +13,10 @@ describe("question content integrity", () => {
     });
   });
 
-  it("has 25–34 maturity questions, each with a recommendation and valid category", () => {
+  it("has 25–38 maturity questions, each with a recommendation and valid category", () => {
     const maturity = questions.filter((q) => q.kind === "maturity");
     expect(maturity.length).toBeGreaterThanOrEqual(25);
-    expect(maturity.length).toBeLessThanOrEqual(34);
+    expect(maturity.length).toBeLessThanOrEqual(38);
     maturity.forEach((q) => {
       expect(validIds.has(q.categoryId as CategoryId)).toBe(true);
       expect(q.recommendation && q.recommendation.length).toBeTruthy();
@@ -28,6 +28,14 @@ describe("question content integrity", () => {
     const text = questions.map((q) => `${q.text} ${q.helpText ?? ""}`).join(" ").toLowerCase();
     expect(text).toContain("dmarc");
     expect(text).toContain("firewall");
+  });
+
+  it("covers the backlog topics: mobile devices, remote access, suppliers and data disposal", () => {
+    const text = questions.map((q) => `${q.text} ${q.helpText ?? ""}`).join(" ").toLowerCase();
+    expect(text).toContain("wipe"); // mobile device management (remote wipe)
+    expect(text).toContain("vpn"); // secure remote access
+    expect(text).toMatch(/supplier|provider|third/); // supplier assurance
+    expect(text).toMatch(/dispose|disposal|getting rid|wipe/); // data disposal
   });
 
   it("uses a three-level Yes/Partly/No scale for maturity, giving 'partly' half credit", () => {

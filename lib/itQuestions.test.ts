@@ -29,9 +29,17 @@ describe("IT question content integrity", () => {
     expect(blob).toContain("firewall");
   });
 
+  it("covers the backlog topics: MDM, secure development, cloud config and AI/shadow IT", () => {
+    const blob = itQuestions.map((q) => `${q.text} ${q.helpText}`).join(" ").toLowerCase();
+    expect(blob).toMatch(/mdm|mobile device|uem/);
+    expect(blob).toMatch(/secure development|sdlc|software development/);
+    expect(blob).toMatch(/cloud|saas/);
+    expect(blob).toMatch(/\bai\b|shadow it|generative/);
+  });
+
   it("has ~40 maturity questions, each fully specified", () => {
     expect(itQuestions.length).toBeGreaterThanOrEqual(38);
-    expect(itQuestions.length).toBeLessThanOrEqual(45);
+    expect(itQuestions.length).toBeLessThanOrEqual(50);
     itQuestions.forEach((q) => {
       expect(q.kind).toBe("maturity");
       expect(validIds.has(q.categoryId)).toBe(true);

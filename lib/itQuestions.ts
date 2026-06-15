@@ -109,6 +109,14 @@ export const itQuestions: Question[] = [
     "Do you maintain an up-to-date inventory of information assets together with their classification?",
     "You can't protect what you haven't identified and classified.",
     "Build and maintain a classified asset inventory."),
+  m("gov_sdlc", "governance", ["ISO 27001", "NZISM"],
+    "If you build or customise software, is a secure development lifecycle applied (code review, dependency/SCA scanning, secrets management, separated environments)?",
+    "ISO 27001 and NZISM expect security to be built into development, not bolted on after release.",
+    "Adopt a secure software development lifecycle with code review, dependency scanning and secrets management."),
+  m("gov_ai", "governance", ["ISO 27001", "PSR"],
+    "Do you govern staff use of public AI tools and unsanctioned SaaS (shadow IT), with guidance on what data may be shared?",
+    "Generative AI and shadow IT can leak sensitive data outside your control; governance is an emerging expectation.",
+    "Set an acceptable-use policy for AI tools and discover/govern shadow-IT SaaS."),
 
   // ---- Identity & Access Control ----
   m("id_mfa", "identity", ["Essential Eight", "NZISM", "ISO 27001"],
@@ -175,6 +183,14 @@ export const itQuestions: Question[] = [
     "Is modern endpoint protection (EDR / anti-malware) deployed, updated and monitored everywhere?",
     "Endpoint detection catches threats that slip past preventive controls.",
     "Deploy and monitor EDR / anti-malware across all endpoints."),
+  m("hd_mdm", "hardening", ["NZISM", "ISO 27001", "HISF"],
+    "Are mobile and BYOD devices managed (MDM / UEM) with enforced encryption, policy, separation of work data and remote wipe?",
+    "Unmanaged mobile devices holding work and health data are a common, avoidable exposure.",
+    "Enforce MDM / UEM with encryption, policy and remote wipe on mobile and BYOD devices."),
+  m("hd_cloud", "hardening", ["NZISM", "ISO 27001"],
+    "Are cloud and SaaS tenants hardened to a benchmark (e.g. CIS, Microsoft 365 Secure Score) and reviewed regularly?",
+    "Default cloud configurations are rarely secure; benchmarks close the common misconfigurations attackers exploit.",
+    "Harden cloud / SaaS tenants to a recognised benchmark and review configuration regularly."),
 
   // ---- Data Protection & Privacy ----
   m("dp_transit", "dataprotection", ["NZISM", "ISO 27001", "HISF"],

@@ -120,6 +120,15 @@ export const questions: Question[] = [
     helpText: "A firewall is a barrier between the internet and your systems, blocking unwanted or malicious traffic before it gets in. Most business routers include one — it just needs to be switched on.",
     recommendation: "Make sure a firewall is switched on and protecting your network (your router or IT provider can confirm).",
   },
+  {
+    id: "acc_supplier",
+    categoryId: "access",
+    kind: "maturity",
+    weight: 1,
+    text: "Do you know which outside companies and online services can access your business data (like your IT provider, accountant or cloud apps), and are you confident they keep it safe?",
+    helpText: "Attackers increasingly break in through a trusted supplier, so the security of the providers you rely on is part of your own.",
+    recommendation: "List the providers who can access your data and check they take security seriously.",
+  },
 
   // ---- Keeping things up to date (updates) ----
   {
@@ -166,6 +175,15 @@ export const questions: Question[] = [
     text: "If you have a website or online store, is the software behind it (and its plugins) kept updated?",
     helpText: "Most website hacks exploit old, unpatched plugins — keeping them current prevents the common attacks.",
     recommendation: "Keep your website platform and plugins updated, or have someone do it for you.",
+  },
+  {
+    id: "upd_disposal",
+    categoryId: "updates",
+    kind: "maturity",
+    weight: 1,
+    text: "When you get rid of, sell or recycle old computers and phones, do you securely wipe them first?",
+    helpText: "Old devices often still hold business and customer data that can be recovered if they aren't properly wiped before you dispose of them.",
+    recommendation: "Securely wipe (factory reset / erase) old devices before disposing of or selling them.",
   },
 
   // ---- Your safety net (backups) ----
@@ -316,6 +334,24 @@ export const questions: Question[] = [
     text: "Are you aware that criminals can use details from social media or phone calls to impersonate you or your staff?",
     helpText: "Criminals piece together public details to convincingly impersonate you and trick staff or suppliers.",
     recommendation: "Be cautious about sharing details that could help someone impersonate your business.",
+  },
+  {
+    id: "ppl_mdm",
+    categoryId: "people",
+    kind: "maturity",
+    weight: 1,
+    text: "If a work phone, tablet or laptop is lost or stolen, can you lock it or erase the business information on it remotely?",
+    helpText: "Being able to remotely lock or wipe a lost device stops a thief getting at your email, files and customer data.",
+    recommendation: "Set up remote lock/wipe on work devices (built into most phones and Microsoft/Google business plans).",
+  },
+  {
+    id: "ppl_remote",
+    categoryId: "people",
+    kind: "maturity",
+    weight: 1,
+    text: "When you or your staff work from home or away from the office, do you connect to business systems securely (for example through a VPN or managed remote access)?",
+    helpText: "Home and public networks are less trusted; a secure connection stops others intercepting your work or reaching your systems.",
+    recommendation: "Use a VPN or managed secure remote access for work done outside the office.",
   },
 
   // ---- If something goes wrong (response) ----

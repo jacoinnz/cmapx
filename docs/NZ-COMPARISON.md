@@ -64,8 +64,8 @@ Legend: ✅ covered · 🟡 partial / one path only · ❌ absent _(before this 
 
 1. ~~Binary Yes/No scoring on the business path is below the NZ norm (CS-CMM uses Yes/No/Partial).~~ **Fixed:** business path now Yes/Partly/No.
 2. ~~Network-layer and email-authentication controls absent from both paths.~~ **Fixed.**
-3. MDM still absent from both paths (deferred — see backlog).
-4. Business path can't yet "graduate" a user toward the IT path.
+3. ~~MDM absent from both paths.~~ **Fixed.**
+4. Business path can't yet "graduate" a user toward the IT path. _(open)_
 5. Self-attested, single-respondent (shared limitation of all self-assessments).
 
 ---
@@ -76,18 +76,23 @@ Legend: ✅ covered · 🟡 partial / one path only · ❌ absent _(before this 
 - **Business:** Yes/Partly/No scale (matches CS-CMM); firewall/network question (`acc_firewall`); email-authentication question (`det_email_auth`).
 - **IT:** new "Network & Boundary Security" category with segmentation (`net_segmentation`), perimeter/remote-access (`net_boundary`), and SPF/DKIM/DMARC (`net_email_auth`).
 - **Copy:** CERT NZ → NCSC across both paths.
+- **Summary card:** "to improve" now counts every non-strength area (not just <34% weaknesses), removing the "0 to improve / N actions" contradiction.
 
-### Still open (P2–P3)
-| Priority | Path | Gap |
-|:--:|---|---|
-| P2 | Business | Mobile devices (remote lock/wipe) |
-| P2 | Business | Remote access / VPN for home workers |
-| P2 | IT | Mobile device management (MDM/UEM) |
-| P2 | IT | Secure software development (conditional, if they build software) |
-| P3 | Business | Supplier/third-party data safety |
-| P3 | Business | Data retention / secure disposal |
-| P3 | IT | Cloud/SaaS configuration hardening (CIS, M365 Secure Score) |
-| P3 | IT | AI / shadow-IT governance |
+### Implemented 2026-06-15 (P2–P3 — backlog cleared)
+| Priority | Path | Gap | Question id |
+|:--:|---|---|---|
+| P2 | Business | Mobile devices (remote lock/wipe) | `ppl_mdm` |
+| P2 | Business | Remote access / VPN for home workers | `ppl_remote` |
+| P2 | IT | Mobile device management (MDM/UEM) | `hd_mdm` |
+| P2 | IT | Secure software development (conditional) | `gov_sdlc` |
+| P3 | Business | Supplier/third-party data safety | `acc_supplier` |
+| P3 | Business | Data retention / secure disposal | `upd_disposal` |
+| P3 | IT | Cloud/SaaS configuration hardening | `hd_cloud` |
+| P3 | IT | AI / shadow-IT governance | `gov_ai` |
+
+### Still open
+- Business path can't yet "graduate" a user toward the IT path (no bridging signal).
+- Self-attested, single-respondent (inherent to self-assessment).
 
 ---
 
