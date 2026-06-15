@@ -119,7 +119,8 @@ main.container { padding-top: 24px; }
 .btn-primary:disabled { background: #9fb4c2; cursor: not-allowed; }
 .btn-ghost { background: transparent; color: var(--ink-soft); }
 .btn-ghost:hover { color: var(--ink); }
-.hint { font-size: .8rem; color: var(--warn); font-weight: 600; }
+/* Darker amber than --warn so small text clears the 4.5:1 AA contrast bar. */
+.hint { font-size: .8rem; color: #92400e; font-weight: 600; }
 
 /* Results */
 .maturity-headline { text-align: center; padding: 8px 0 4px; }
