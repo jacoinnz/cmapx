@@ -15,6 +15,13 @@
       "when": 1781492686195,
       "tag": "0001_auth_and_results",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781502117763,
+      "tag": "0002_analytics_events",
+      "breakpoints": true
     }
   ]
 }

@@ -97,3 +97,29 @@ export const results = pgTable(
 );
 
 export type ResultRow = typeof results.$inferSelect;
+
+// ---- Anonymous behavioural analytics (NO identity, NO IP, NO user-agent) ----
+
+export const events = pgTable(
+  "events",
+  {
+    id: serial("id").primaryKey(),
+    /** Random, anonymous per-session id — not linked to any person. */
+    sessionId: text("session_id").notNull(),
+    /** session_start | assessment_start | section_complete | assessment_complete | click */
+    type: text("type").notNull(),
+    /** e.g. a button label or category id. */
+    label: text("label"),
+    /** 'business' | 'it' | null. */
+    path: text("path"),
+    /** Wizard section index, when relevant. */
+    step: integer("step"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    typeIdx: index("events_type_idx").on(t.type),
+    createdIdx: index("events_created_idx").on(t.createdAt),
+  })
+);
+
+export type EventRecord = typeof events.$inferSelect;

@@ -14,6 +14,7 @@ import {
   saveSnapshot,
   toSnapshot,
 } from "@/lib/history";
+import { track } from "@/lib/clientTrack";
 import Wizard from "./Wizard";
 import Results from "./Results";
 
@@ -103,6 +104,7 @@ export default function Assessment(config: AssessmentConfig) {
     setPrevious(prior[0] ?? null); // most recent before this one
     setHistory(saveSnapshot(toSnapshot(path, result, takenAt)));
     clearDraft(path);
+    track("assessment_complete", { path });
     setDone(true);
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
@@ -136,8 +138,8 @@ export default function Assessment(config: AssessmentConfig) {
           <h1>{config.title}</h1>
           <p>{config.subtitle}</p>
           <span className="privacy-note">
-            🔒 Private by design. Your answers and results are saved only on this device — never
-            uploaded.
+            🔒 Private by design. Your answers and results never leave your device. We measure only
+            anonymous button clicks (no identity, no IP) to improve the tool.
           </span>
         </div>
       </header>
@@ -184,6 +186,7 @@ export default function Assessment(config: AssessmentConfig) {
             answerScale={config.answerScale}
             onAnswer={handleAnswer}
             onComplete={finish}
+            path={path}
           />
         )}
 

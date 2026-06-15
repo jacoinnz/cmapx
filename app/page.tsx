@@ -14,8 +14,8 @@ export default function Home() {
             Choose the version that fits you — answer a few questions and see where you stand.
           </p>
           <span className="privacy-note">
-            🔒 Private by design. Your answers and results are saved only on your own device — never
-            uploaded.
+            🔒 Private by design. Your answers and results never leave your device. We measure only
+            anonymous button clicks (no identity, no IP) to improve the tool.
           </span>
         </div>
       </header>

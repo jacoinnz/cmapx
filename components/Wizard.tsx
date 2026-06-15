@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Answer, AnswerMap, AnswerOption, Category, Question } from "@/lib/types";
+import { track } from "@/lib/clientTrack";
 
 function QuestionRow({
   question,
@@ -71,6 +72,7 @@ export default function Wizard({
   answerScale,
   onAnswer,
   onComplete,
+  path,
 }: {
   categories: Category[];
   questions: Question[];
@@ -78,9 +80,16 @@ export default function Wizard({
   answerScale: AnswerOption[];
   onAnswer: (id: string, a: Answer) => void;
   onComplete: () => void;
+  /** Path label for anonymous drop-off analytics. */
+  path?: string;
 }) {
   const [step, setStep] = useState(0);
   const category = categories[step];
+
+  // Anonymous section-view event so we can see where people drop off.
+  useEffect(() => {
+    track("section_view", { path, step });
+  }, [step, path]);
   const catQuestions = questions.filter((q) => q.categoryId === category.id);
   const allAnswered = catQuestions.every((q) => answers[q.id]);
   const isLast = step === categories.length - 1;
