@@ -7,7 +7,7 @@ export default function BusinessPage() {
   return (
     <Assessment
       path="business"
-      title="Cybersecurity Health Check — for business owners"
+      title="For business owners"
       subtitle="A plain-English check for New Zealand businesses. No tech knowledge needed — answer a few questions about how you work and see where you stand."
       categories={categories}
       questions={questions}

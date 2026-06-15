@@ -59,6 +59,7 @@ main.container { padding-top: 24px; }
    (a fixed-px body gradient clipped the privacy note on tall mobile headers). */
 .site-header { padding: 40px 0 40px; color: #fff; background: #0b1220; }
 .site-header .brand { display: flex; align-items: center; gap: 12px; }
+.site-header .brand strong { font-size: 20px; text-transform: uppercase; letter-spacing: .03em; }
 .site-header .brand-link { text-decoration: none; color: inherit; width: fit-content; border-radius: 2px; }
 .site-header .brand-link:hover strong { text-decoration: underline; }
 .site-header .brand-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
