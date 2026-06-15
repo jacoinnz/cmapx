@@ -7,9 +7,8 @@ export default function Home() {
         <div className="container">
           <div className="brand">
             <span className="logo-badge" aria-hidden />
-            <strong>Cybersecurity Maturity Health Check</strong>
+            <strong>Cybersecurity Health Check</strong>
           </div>
-          <h1>Cybersecurity Health Check</h1>
           <p>
             A free, private check of how well your organisation is protected against cyber threats.
             Choose the version that fits you — answer a few questions and see where you stand.

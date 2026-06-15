@@ -131,7 +131,7 @@ export default function Assessment(config: AssessmentConfig) {
         <div className="container">
           <Link href="/" className="brand brand-link" aria-label="Return to start">
             <span className="logo-badge" aria-hidden />
-            <strong>Cybersecurity Maturity Health Check</strong>
+            <strong>Cybersecurity Health Check</strong>
           </Link>
           <h1>{config.title}</h1>
           <p>{config.subtitle}</p>

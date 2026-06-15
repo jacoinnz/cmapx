@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 const SITE = "https://cmap-theta.vercel.app";
-const TITLE = "Cybersecurity Maturity Health Check — for NZ Businesses";
+const TITLE = "Cybersecurity Health Check — for NZ Businesses";
 const DESCRIPTION =
   "A free, private cybersecurity maturity health check for New Zealand businesses. Plain-English and technical paths, mapped to NZ standards. Nothing leaves your device.";
 
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_NZ",
     url: SITE,
-    siteName: "Cybersecurity Maturity Health Check",
+    siteName: "Cybersecurity Health Check",
     title: TITLE,
     description: DESCRIPTION,
   },

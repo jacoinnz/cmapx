@@ -47,7 +47,7 @@ export default function AccountPage() {
         <div className="container">
           <Link href="/" className="brand brand-link" aria-label="Return to start">
             <span className="logo-badge" aria-hidden />
-            <strong>Cybersecurity Maturity Health Check</strong>
+            <strong>Cybersecurity Health Check</strong>
           </Link>
           <h1>Your account</h1>
           <p>
