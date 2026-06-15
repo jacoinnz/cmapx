@@ -1,13 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Answer, AnswerMap, AnswerOption, Category, Question } from "@/lib/types";
 import { scoreAssessment, summariseStandards } from "@/lib/scoring";
+import {
+  PathId,
+  Snapshot,
+  loadDraft,
+  saveDraft,
+  clearDraft,
+  loadHistory,
+  saveSnapshot,
+  toSnapshot,
+} from "@/lib/history";
 import Wizard from "./Wizard";
 import Results from "./Results";
 
 export interface AssessmentConfig {
+  /** Distinguishes saved history/draft between the two paths. */
+  path: PathId;
   title: string;
   subtitle: string;
   categories: Category[];
@@ -24,9 +36,25 @@ export interface AssessmentConfig {
   showItBridge?: boolean;
 }
 
+function formatWhen(iso: string): string {
+  try {
+    return new Date(iso).toLocaleDateString("en-NZ", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  } catch {
+    return "earlier";
+  }
+}
+
 export default function Assessment(config: AssessmentConfig) {
+  const { path } = config;
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [done, setDone] = useState(false);
+  const [previous, setPrevious] = useState<Snapshot | null>(null);
+  const [history, setHistory] = useState<Snapshot[]>([]);
+  const [resumable, setResumable] = useState<{ savedAt: string; answers: AnswerMap } | null>(null);
 
   const creditByValue = useMemo(
     () => Object.fromEntries(config.answerScale.map((o) => [o.value, o.credit])),
@@ -50,13 +78,51 @@ export default function Assessment(config: AssessmentConfig) {
     [answers, config.questions, config.standards, creditByValue]
   );
 
+  // On mount: offer to resume an in-progress draft, and load any past history.
+  useEffect(() => {
+    const draft = loadDraft(path);
+    if (draft && Object.keys(draft.answers).length > 0) {
+      setResumable({ savedAt: draft.savedAt, answers: draft.answers });
+    }
+    setHistory(loadHistory(path));
+  }, [path]);
+
+  // Auto-save answers as a draft so an interrupted check can be resumed.
+  useEffect(() => {
+    if (!done && Object.keys(answers).length > 0) {
+      saveDraft(path, answers, new Date().toISOString());
+    }
+  }, [answers, done, path]);
+
   const handleAnswer = (id: string, a: Answer) =>
     setAnswers((prev) => ({ ...prev, [id]: a }));
 
+  const finish = () => {
+    const takenAt = new Date().toISOString();
+    const prior = loadHistory(path);
+    setPrevious(prior[0] ?? null); // most recent before this one
+    setHistory(saveSnapshot(toSnapshot(path, result, takenAt)));
+    clearDraft(path);
+    setDone(true);
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
   const restart = () => {
+    clearDraft(path);
     setAnswers({});
+    setPrevious(null);
     setDone(false);
     if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
+  const resumeNow = () => {
+    if (resumable) setAnswers(resumable.answers);
+    setResumable(null);
+  };
+
+  const startFresh = () => {
+    clearDraft(path);
+    setResumable(null);
   };
 
   return (
@@ -70,12 +136,33 @@ export default function Assessment(config: AssessmentConfig) {
           <h1>{config.title}</h1>
           <p>{config.subtitle}</p>
           <span className="privacy-note">
-            🔒 We store nothing. Your answers stay in your browser and disappear when you close the tab.
+            🔒 Private by design. Your answers and results are saved only on this device — never
+            uploaded.
           </span>
         </div>
       </header>
 
       <main className="container">
+        {!done && resumable && (
+          <div className="resume-banner" role="status">
+            <div>
+              <strong>Pick up where you left off?</strong>
+              <span>
+                {" "}
+                You have an unfinished check from {formatWhen(resumable.savedAt)}.
+              </span>
+            </div>
+            <div className="resume-actions">
+              <button type="button" className="btn btn-primary" onClick={resumeNow}>
+                Resume
+              </button>
+              <button type="button" className="btn btn-ghost" onClick={startFresh}>
+                Start fresh
+              </button>
+            </div>
+          </div>
+        )}
+
         {done ? (
           <Results
             result={result}
@@ -85,6 +172,8 @@ export default function Assessment(config: AssessmentConfig) {
             reportTitle={config.reportTitle}
             standards={standardsSummary}
             showItBridge={config.showItBridge}
+            previous={previous}
+            history={history}
           />
         ) : (
           <Wizard
@@ -93,10 +182,7 @@ export default function Assessment(config: AssessmentConfig) {
             answers={answers}
             answerScale={config.answerScale}
             onAnswer={handleAnswer}
-            onComplete={() => {
-              setDone(true);
-              if (typeof window !== "undefined") window.scrollTo(0, 0);
-            }}
+            onComplete={finish}
           />
         )}
 

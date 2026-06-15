@@ -15,7 +15,8 @@ export default function Home() {
             Choose the version that fits you — answer a few questions and see where you stand.
           </p>
           <span className="privacy-note">
-            🔒 We store nothing. Your answers stay in your browser and disappear when you close the tab.
+            🔒 Private by design. Your answers and results are saved only on your own device — never
+            uploaded.
           </span>
         </div>
       </header>

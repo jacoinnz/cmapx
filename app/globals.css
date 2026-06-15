@@ -195,6 +195,35 @@ main.container { padding-top: 24px; }
 .home-link { color: var(--brand); font-weight: 600; text-decoration: none; }
 .home-link:hover { text-decoration: underline; }
 
+/* Resume-an-unfinished-check banner */
+.resume-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: #eff5ff; border: 1px solid #bfdbfe; border-left: 3px solid var(--brand);
+  border-radius: 2px; padding: 14px 18px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.resume-banner span { color: var(--ink-soft); }
+.resume-actions { display: flex; gap: 10px; }
+.resume-actions .btn { padding: 8px 16px; }
+
+/* "Since last time" delta badge + trend */
+.delta { font-size: .82rem; font-weight: 700; padding: 1px 8px; border-radius: 2px; white-space: nowrap; }
+.delta-up { color: #0f7a3d; }
+.delta-down { color: #b3261e; }
+.delta-flat { color: var(--ink-soft); font-weight: 600; }
+.summary-lead .delta { background: rgba(0,0,0,.04); }
+
+.trend-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.trend-row { display: grid; grid-template-columns: 110px 1fr 46px 44px; align-items: center; gap: 12px; }
+.trend-date { font-size: .85rem; color: var(--ink-soft); font-weight: 600; }
+.trend-bar { height: 10px; background: #e7ecf4; border-radius: 2px; overflow: hidden; }
+.trend-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--accent)); }
+.trend-pct { font-weight: 700; font-size: .9rem; text-align: right; }
+.trend-delta { font-size: .82rem; font-weight: 700; text-align: right; }
+@media (max-width: 560px) {
+  .trend-row { grid-template-columns: 84px 1fr 40px 40px; gap: 8px; }
+  .trend-date { font-size: .78rem; }
+}
+
 /* Business → IT "graduation" bridge on results */
 .bridge-card {
   display: block; text-decoration: none; color: var(--ink);

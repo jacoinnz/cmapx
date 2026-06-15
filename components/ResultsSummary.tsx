@@ -1,5 +1,6 @@
 import { AssessmentResult, StandardsSummary } from "@/lib/types";
 import { buildResultsSummary } from "@/lib/scoring";
+import { Snapshot, overallDelta } from "@/lib/history";
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
@@ -10,16 +11,29 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
+function DeltaBadge({ delta }: { delta: number }) {
+  if (delta === 0) return <span className="delta delta-flat">no change</span>;
+  const up = delta > 0;
+  return (
+    <span className={`delta ${up ? "delta-up" : "delta-down"}`}>
+      {up ? "▲" : "▼"} {Math.abs(delta)} pts
+    </span>
+  );
+}
+
 export default function ResultsSummary({
   result,
   standards,
   label = "cybersecurity",
+  previous,
 }: {
   result: AssessmentResult;
   standards?: StandardsSummary[];
   label?: string;
+  previous?: Snapshot | null;
 }) {
   const s = buildResultsSummary(result, standards);
+  const delta = previous ? overallDelta(s.overallPct, previous.overallPct) : null;
 
   return (
     <div className="card summary-card">
@@ -27,6 +41,12 @@ export default function ResultsSummary({
       <p className="summary-lead">
         Your {label} maturity is <strong>{s.levelLabel}</strong> — Level {s.level} of 5 (
         {s.overallPct}%).
+        {delta !== null && (
+          <>
+            {" "}
+            <DeltaBadge delta={delta} /> since your last check ({previous!.overallPct}%).
+          </>
+        )}
       </p>
 
       <div className="summary-stats">

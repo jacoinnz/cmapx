@@ -2,10 +2,12 @@
 
 import dynamic from "next/dynamic";
 import { AssessmentResult, StandardsSummary } from "@/lib/types";
+import { Snapshot } from "@/lib/history";
 import SwotGrid from "./SwotGrid";
 import InsurancePanel from "./InsurancePanel";
 import ExportButton from "./ExportButton";
 import ResultsSummary from "./ResultsSummary";
+import HistoryTrend from "./HistoryTrend";
 import PathBridge from "./PathBridge";
 
 // Recharts touches the DOM, so load it client-only.
@@ -38,6 +40,8 @@ export default function Results({
   reportTitle,
   standards,
   showItBridge = false,
+  previous,
+  history,
 }: {
   result: AssessmentResult;
   onRestart: () => void;
@@ -47,12 +51,23 @@ export default function Results({
   standards?: StandardsSummary[];
   /** Business path only: offer the technical (IT) assessment as a next step. */
   showItBridge?: boolean;
+  /** The user's previous saved check, for a "since last time" delta. */
+  previous?: Snapshot | null;
+  /** Full saved history (newest first) for the trend. */
+  history?: Snapshot[];
 }) {
   const { maturity, swot, insurance, nextSteps } = result;
 
   return (
     <div>
-      <ResultsSummary result={result} standards={standards} label={summaryLabel} />
+      <ResultsSummary
+        result={result}
+        standards={standards}
+        label={summaryLabel}
+        previous={previous}
+      />
+
+      {history && history.length > 1 && <HistoryTrend history={history} />}
 
       <div className="card">
         <div className="maturity-headline">
