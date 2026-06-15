@@ -75,10 +75,23 @@ export default function Wizard({
   const isLast = step === categories.length - 1;
   const pct = Math.round(((step + (allAnswered ? 1 : 0)) / categories.length) * 100);
 
+  const scrollToTop = () => {
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
   const next = () => {
     if (!allAnswered) return;
-    if (isLast) onComplete();
-    else setStep((s) => s + 1);
+    if (isLast) {
+      onComplete(); // Assessment scrolls to the top of the results itself
+    } else {
+      setStep((s) => s + 1);
+      scrollToTop();
+    }
+  };
+
+  const back = () => {
+    setStep((s) => Math.max(0, s - 1));
+    scrollToTop();
   };
 
   return (
@@ -107,7 +120,7 @@ export default function Wizard({
       <div className="nav-row">
         <button
           className="btn btn-ghost"
-          onClick={() => setStep((s) => Math.max(0, s - 1))}
+          onClick={back}
           disabled={step === 0}
           style={{ visibility: step === 0 ? "hidden" : "visible" }}
         >

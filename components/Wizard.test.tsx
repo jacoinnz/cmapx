@@ -57,4 +57,22 @@ describe("Wizard", () => {
     expect(screen.queryByRole("button", { name: /See my results/ })).not.toBeInTheDocument();
     expect(onComplete).not.toHaveBeenCalled();
   });
+
+  it("scrolls to the top of the page when advancing to the next section", () => {
+    const scrollTo = jest.fn();
+    window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
+    render(
+      <Wizard
+        categories={categories}
+        questions={questions}
+        answers={{ acc1: "yes" }}
+        answerScale={scale}
+        onAnswer={jest.fn()}
+        onComplete={jest.fn()}
+      />
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Next/ }));
+    expect(screen.getByText("Your safety net")).toBeInTheDocument();
+    expect(scrollTo).toHaveBeenCalledWith(0, 0);
+  });
 });
