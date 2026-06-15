@@ -8,7 +8,9 @@ import InsurancePanel from "./InsurancePanel";
 import ExportButton from "./ExportButton";
 import ResultsSummary from "./ResultsSummary";
 import HistoryTrend from "./HistoryTrend";
+import ShareButton from "./ShareButton";
 import PathBridge from "./PathBridge";
+import { PathId } from "@/lib/history";
 
 // Recharts touches the DOM, so load it client-only.
 const MaturityRadar = dynamic(() => import("./MaturityRadar"), {
@@ -42,6 +44,7 @@ export default function Results({
   showItBridge = false,
   previous,
   history,
+  path,
 }: {
   result: AssessmentResult;
   onRestart: () => void;
@@ -55,6 +58,8 @@ export default function Results({
   previous?: Snapshot | null;
   /** Full saved history (newest first) for the trend. */
   history?: Snapshot[];
+  /** Which assessment this is, for the shareable link. */
+  path?: PathId;
 }) {
   const { maturity, swot, insurance, nextSteps } = result;
 
@@ -127,6 +132,7 @@ export default function Results({
 
       <div className="card">
         <ExportButton result={result} reportTitle={reportTitle} standards={standards} />
+        {path && <ShareButton result={result} path={path} />}
       </div>
 
       <div style={{ textAlign: "center", marginBottom: 30 }}>

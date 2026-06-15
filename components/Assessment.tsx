@@ -174,6 +174,7 @@ export default function Assessment(config: AssessmentConfig) {
             showItBridge={config.showItBridge}
             previous={previous}
             history={history}
+            path={path}
           />
         ) : (
           <Wizard
