@@ -13,8 +13,17 @@ import { CategoryScore } from "@/lib/types";
 export default function MaturityRadar({ scores }: { scores: CategoryScore[] }) {
   const data = scores.map((s) => ({ category: s.ownerLabel, score: s.scorePct }));
   return (
-    <div style={{ width: "100%", height: 320 }}>
-      <ResponsiveContainer>
+    <div>
+      {/* The chart is decorative; the numbers are read out here instead. */}
+      <ul className="sr-only">
+        {scores.map((s) => (
+          <li key={s.categoryId}>
+            {s.ownerLabel}: {s.scorePct}%
+          </li>
+        ))}
+      </ul>
+      <div style={{ width: "100%", height: 320 }} aria-hidden="true">
+        <ResponsiveContainer>
         <RadarChart data={data} outerRadius="72%">
           <PolarGrid stroke="#dbe2ee" />
           <PolarAngleAxis
@@ -30,6 +39,7 @@ export default function MaturityRadar({ scores }: { scores: CategoryScore[] }) {
           />
         </RadarChart>
       </ResponsiveContainer>
+      </div>
     </div>
   );
 }

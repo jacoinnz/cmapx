@@ -58,6 +58,25 @@ describe("Wizard", () => {
     expect(onComplete).not.toHaveBeenCalled();
   });
 
+  it("exposes the help toggle's open/closed state to assistive tech", () => {
+    render(
+      <Wizard
+        categories={[categories[0]]}
+        questions={[
+          { id: "acc1", text: "Access question one?", weight: 1, kind: "maturity", categoryId: "access", helpText: "Because reasons." },
+        ]}
+        answers={{}}
+        answerScale={scale}
+        onAnswer={jest.fn()}
+        onComplete={jest.fn()}
+      />
+    );
+    const toggle = screen.getByRole("button", { name: /why does this matter/i });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("scrolls to the top of the page when advancing to the next section", () => {
     const scrollTo = jest.fn();
     window.scrollTo = scrollTo as unknown as typeof window.scrollTo;

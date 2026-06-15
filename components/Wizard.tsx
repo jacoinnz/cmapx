@@ -29,16 +29,27 @@ function QuestionRow({
       )}
       {question.helpText && (
         <>
-          <button className="help-toggle" onClick={() => setShowHelp((s) => !s)}>
+          <button
+            type="button"
+            className="help-toggle"
+            aria-expanded={showHelp}
+            aria-controls={`help-${question.id}`}
+            onClick={() => setShowHelp((s) => !s)}
+          >
             {showHelp ? "Hide" : "Why does this matter?"}
           </button>
-          {showHelp && <p className="help-text">{question.helpText}</p>}
+          {showHelp && (
+            <p className="help-text" id={`help-${question.id}`}>
+              {question.helpText}
+            </p>
+          )}
         </>
       )}
       <div className="answers" role="group" aria-label={question.text}>
         {(question.scale ?? scale).map((o) => (
           <button
             key={o.value}
+            type="button"
             className="answer-btn"
             data-selected={value === o.value ? o.value : undefined}
             data-on={value === o.value ? "true" : undefined}
@@ -119,6 +130,7 @@ export default function Wizard({
 
       <div className="nav-row">
         <button
+          type="button"
           className="btn btn-ghost"
           onClick={back}
           disabled={step === 0}
@@ -128,7 +140,7 @@ export default function Wizard({
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           {!allAnswered && <span className="hint">Please answer every question to continue</span>}
-          <button className="btn btn-primary" onClick={next} disabled={!allAnswered}>
+          <button type="button" className="btn btn-primary" onClick={next} disabled={!allAnswered}>
             {isLast ? "See my results" : "Next →"}
           </button>
         </div>
