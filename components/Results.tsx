@@ -10,9 +10,9 @@ import ResultsSummary from "./ResultsSummary";
 import HistoryTrend from "./HistoryTrend";
 import ShareButton from "./ShareButton";
 import Roadmap from "./Roadmap";
+import BenchmarkBand from "./BenchmarkBand";
 import PathBridge from "./PathBridge";
 import { PathId } from "@/lib/history";
-import { benchmark } from "@/lib/benchmark";
 
 // Recharts touches the DOM, so load it client-only.
 const MaturityRadar = dynamic(() => import("./MaturityRadar"), {
@@ -93,22 +93,7 @@ export default function Results({
         <MaturityRadar scores={maturity.categoryScores} />
       </div>
 
-      {path && (() => {
-        const b = benchmark(path, maturity.overallPct);
-        return (
-          <div className="card benchmark-card">
-            <div className="cat-eyebrow">How you compare</div>
-            <p className="benchmark-lead">{b.blurb}</p>
-            <div className="benchmark-bar" aria-hidden="true">
-              <span style={{ width: `${b.percentile}%` }} />
-            </div>
-            <p className="benchmark-note">
-              Indicative benchmark from a modelled NZ distribution — it will switch to live, anonymous
-              data as more checks are completed.
-            </p>
-          </div>
-        );
-      })()}
+      {path && <BenchmarkBand path={path} overallPct={maturity.overallPct} />}
 
       <div className="card">
         <h3 className="section-title">Your strengths, weaknesses & where to focus</h3>

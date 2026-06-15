@@ -10,11 +10,15 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@react-pdf/renderer": "3.4.4",
     "@vercel/analytics": "^2.0.1",
+    "drizzle-orm": "^0.45.2",
     "next": "14.2.35",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -27,6 +31,7 @@
     "@types/node": "20.14.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "drizzle-kit": "^0.31.10",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "serve": "^14.2.0",

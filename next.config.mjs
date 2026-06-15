@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Fully static, client-side app — no server runtime. Satisfies the
-  // "no backend, nothing stored or transmitted" guarantee by architecture.
-  output: "export",
+  // Server runtime enabled (Phase 4): optional accounts, cloud sync and live
+  // benchmarking via API routes. The app stays local-first and fully usable
+  // without any backend keys — cloud features degrade gracefully.
   reactStrictMode: true,
   images: { unoptimized: true },
 };

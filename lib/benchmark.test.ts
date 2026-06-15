@@ -1,4 +1,4 @@
-import { benchmarkPercentile, benchmark } from "./benchmark";
+import { benchmarkPercentile, benchmark, percentileWithin, describeBenchmark } from "./benchmark";
 
 describe("benchmarkPercentile", () => {
   it("maps a mid score to roughly the middle of the pack", () => {
@@ -30,5 +30,21 @@ describe("benchmark", () => {
     expect(b.indicative).toBe(true);
     expect(b.percentile).toBe(90);
     expect(b.blurb).toMatch(/90%/);
+  });
+});
+
+describe("percentileWithin (live data)", () => {
+  it("returns the share of scores strictly below the value", () => {
+    expect(percentileWithin([10, 20, 30, 40], 35)).toBe(75);
+    expect(percentileWithin([50, 50, 50], 50)).toBe(0);
+    expect(percentileWithin([], 50)).toBe(0);
+  });
+});
+
+describe("describeBenchmark", () => {
+  it("marks live results as not indicative", () => {
+    const b = describeBenchmark("it", 64, false);
+    expect(b.indicative).toBe(false);
+    expect(b.blurb).toMatch(/64%/);
   });
 });

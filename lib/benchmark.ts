@@ -15,8 +15,18 @@ export interface Benchmark {
   percentile: number;
   /** Plain sentence for display. */
   blurb: string;
-  /** Always true for now — flags this as a model, not live data. */
+  /** True when modelled (seeded); false when computed from live submissions. */
   indicative: boolean;
+}
+
+/** Live benchmarking switches on once we have at least this many submissions. */
+export const MIN_LIVE_SAMPLE = 30;
+
+/** Percentage of sample scores strictly below `value` (0–100). */
+export function percentileWithin(scores: number[], value: number): number {
+  if (scores.length === 0) return 0;
+  const below = scores.filter((s) => s < value).length;
+  return Math.round((below / scores.length) * 100);
 }
 
 /** Linear-interpolated percentile for a 0–100 score against the seeded CDF. */
@@ -30,12 +40,21 @@ export function benchmarkPercentile(path: PathId, overallPct: number): number {
   return Math.round(lo + (hi - lo) * frac);
 }
 
-export function benchmark(path: PathId, overallPct: number): Benchmark {
-  const percentile = benchmarkPercentile(path, overallPct);
+/** Build a Benchmark (blurb + flags) from an already-computed percentile. */
+export function describeBenchmark(
+  path: PathId,
+  percentile: number,
+  indicative: boolean
+): Benchmark {
   const who = path === "it" ? "NZ organisations" : "NZ businesses";
   let blurb: string;
   if (percentile >= 75) blurb = `You're ahead of about ${percentile}% of similar ${who} — strong.`;
   else if (percentile >= 50) blurb = `You're ahead of about ${percentile}% of similar ${who} — around the middle of the pack.`;
   else blurb = `You're ahead of about ${percentile}% of similar ${who} — there's clear room to improve.`;
-  return { percentile, blurb, indicative: true };
+  return { percentile, blurb, indicative };
+}
+
+/** Seeded (modelled) benchmark — the fallback used until live data accrues. */
+export function benchmark(path: PathId, overallPct: number): Benchmark {
+  return describeBenchmark(path, benchmarkPercentile(path, overallPct), true);
 }
