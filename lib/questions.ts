@@ -1,4 +1,5 @@
 import { AnswerOption, Category, Question } from "./types";
+import { naOption } from "./scoring";
 
 // Business path maturity scale: three levels so half-done controls aren't scored
 // as a total gap. Mirrors the NCSC Cyber Security Capability Maturity Model's
@@ -175,6 +176,7 @@ export const questions: Question[] = [
     text: "If you have a website or online store, is the software behind it (and its plugins) kept updated?",
     helpText: "Most website hacks exploit old, unpatched plugins — keeping them current prevents the common attacks.",
     recommendation: "Keep your website platform and plugins updated, or have someone do it for you.",
+    scale: [...businessAnswerScale, naOption],
   },
   {
     id: "upd_disposal",

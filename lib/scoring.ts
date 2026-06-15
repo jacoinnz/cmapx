@@ -1,6 +1,7 @@
 import {
   Answer,
   AnswerMap,
+  AnswerOption,
   AssessmentResult,
   Category,
   CategoryId,
@@ -11,6 +12,11 @@ import {
   Question,
   StandardsSummary,
 } from "./types";
+
+// Sentinel answer for conditional controls that don't apply (e.g. "we don't
+// build software"). Excluded from all scoring — never counted as a gap.
+export const NA_ANSWER = "na";
+export const naOption: AnswerOption = { value: NA_ANSWER, label: "Doesn't apply", credit: 0 };
 
 // Level 1..5 labels (index 0..4).
 const LEVEL_LABELS = ["Exposed", "Basic", "Developing", "Managed", "Strong"];
@@ -75,7 +81,9 @@ export function scoreAssessment(
   const creditByValue = opts.creditByValue ?? DEFAULT_CREDIT;
   const computeInsurance = opts.computeInsurance ?? true;
 
-  const maturityQs = questions.filter((q) => q.kind === "maturity");
+  // "Doesn't apply" answers are dropped from every maturity calculation.
+  const applies = (q: Question) => answers[q.id] !== NA_ANSWER;
+  const maturityQs = questions.filter((q) => q.kind === "maturity" && applies(q));
   const exposureQs = questions.filter((q) => q.kind === "exposure");
 
   // ---- Per-category maturity ----
@@ -241,7 +249,10 @@ export function summariseStandards(
 ): StandardsSummary[] {
   return standards.map((std) => {
     const qs = questions.filter(
-      (q) => q.kind === "maturity" && (q.standards ?? []).includes(std)
+      (q) =>
+        q.kind === "maturity" &&
+        (q.standards ?? []).includes(std) &&
+        answers[q.id] !== NA_ANSWER
     );
     const weight = qs.reduce((s, q) => s + q.weight, 0);
     const credit = qs.reduce(

@@ -71,6 +71,11 @@ describe("question content integrity", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it("offers an N/A option on the conditional website question", () => {
+    const web = questions.find((q) => q.id === "upd_website")!;
+    expect(web.scale?.some((o) => o.value === "na")).toBe(true);
+  });
+
   it("every question explains why it matters (helpText)", () => {
     questions.forEach((q) => {
       expect(Boolean(q.helpText && q.helpText.trim().length)).toBe(true);

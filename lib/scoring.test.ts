@@ -1,4 +1,4 @@
-import { scoreAssessment, buildResultsSummary } from "./scoring";
+import { scoreAssessment, buildResultsSummary, summariseStandards } from "./scoring";
 import { Category, Question, AnswerMap } from "./types";
 
 const categories: Category[] = [
@@ -122,6 +122,36 @@ describe("scoreAssessment — insurance exposure", () => {
     const r = scoreAssessment(answers, questions, categories);
     expect(r.maturity.level).toBeLessThanOrEqual(2);
     expect(r.insurance.rating).toBe("strong");
+  });
+});
+
+describe("scoreAssessment — N/A (not applicable) answers", () => {
+  it("excludes 'na' from category/overall denominators and from next steps", () => {
+    const answers: AnswerMap = {
+      acc1: "yes", acc2: "na", // access: acc2 excluded, acc1 alone = full
+      bak1: "no", bak2: "no",
+      exp_data: "no", exp_online: "no",
+    };
+    const r = scoreAssessment(answers, questions, categories);
+
+    const access = r.maturity.categoryScores.find((c) => c.categoryId === "access")!;
+    expect(access.scorePct).toBe(100); // acc2 not counted at all
+    // overall: acc1(yes) counts, acc2 excluded, bak1+bak2(no) => 1 of 3 = 33%
+    expect(r.maturity.overallPct).toBe(33);
+    // the excluded question must not surface as a next step
+    expect(r.nextSteps.some((s) => s.text.includes("password manager"))).toBe(false);
+  });
+});
+
+describe("summariseStandards — N/A answers", () => {
+  it("drops 'na' answers from per-standard coverage and counts", () => {
+    const qs: Question[] = [
+      { id: "a", text: "", weight: 1, kind: "maturity", categoryId: "x", standards: ["NZISM"] },
+      { id: "b", text: "", weight: 1, kind: "maturity", categoryId: "x", standards: ["NZISM"] },
+    ];
+    const s = summariseStandards({ a: "full", b: "na" }, qs, ["NZISM"], { full: 1, na: 0 });
+    expect(s[0].scorePct).toBe(100); // b excluded, a alone = full
+    expect(s[0].questionCount).toBe(1);
   });
 });
 

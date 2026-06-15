@@ -73,4 +73,9 @@ describe("IT question content integrity", () => {
     const ids = itQuestions.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it("offers an N/A option on the conditional secure-development question", () => {
+    const sdlc = itQuestions.find((q) => q.id === "gov_sdlc")!;
+    expect(sdlc.scale?.some((o) => o.value === "na")).toBe(true);
+  });
 });

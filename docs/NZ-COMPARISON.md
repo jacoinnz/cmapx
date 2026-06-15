@@ -93,6 +93,7 @@ Legend: ✅ covered · 🟡 partial / one path only · ❌ absent _(before this 
 ### Implemented 2026-06-15 (open items closed)
 - **Graduation bridge:** business results now show an adaptive "next step up" card linking to the IT path (`PathBridge`) — a direct nudge at Managed/Strong (level ≥ 4), framed as a future step otherwise.
 - **Self-assessment caveat:** results footer now states the result is a self-assessment to guide, not a formal audit or guarantee.
+- **N/A for conditional controls:** a "Doesn't apply" answer (`NA_ANSWER`) is excluded from all scoring — applied to the conditional secure-development (`gov_sdlc`) and website (`upd_website`) questions so non-developers / sites without a web presence aren't unfairly penalised.
 
 ### Still open
 - _None from this comparison._ Future ideas live in the product backlog, not here.

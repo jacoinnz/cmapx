@@ -1,4 +1,5 @@
 import { AnswerOption, Category, Question } from "./types";
+import { naOption } from "./scoring";
 
 // IT path: 4-level maturity scale.
 export const itAnswerScale: AnswerOption[] = [
@@ -109,10 +110,11 @@ export const itQuestions: Question[] = [
     "Do you maintain an up-to-date inventory of information assets together with their classification?",
     "You can't protect what you haven't identified and classified.",
     "Build and maintain a classified asset inventory."),
-  m("gov_sdlc", "governance", ["ISO 27001", "NZISM"],
+  { ...m("gov_sdlc", "governance", ["ISO 27001", "NZISM"],
     "If you build or customise software, is a secure development lifecycle applied (code review, dependency/SCA scanning, secrets management, separated environments)?",
-    "ISO 27001 and NZISM expect security to be built into development, not bolted on after release.",
+    "ISO 27001 and NZISM expect security to be built into development, not bolted on after release. Choose \"Doesn't apply\" if you don't develop software.",
     "Adopt a secure software development lifecycle with code review, dependency scanning and secrets management."),
+    scale: [...itAnswerScale, naOption] },
   m("gov_ai", "governance", ["ISO 27001", "PSR"],
     "Do you govern staff use of public AI tools and unsanctioned SaaS (shadow IT), with guidance on what data may be shared?",
     "Generative AI and shadow IT can leak sensitive data outside your control; governance is an emerging expectation.",
