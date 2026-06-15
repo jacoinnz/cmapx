@@ -6,6 +6,7 @@ import SwotGrid from "./SwotGrid";
 import InsurancePanel from "./InsurancePanel";
 import ExportButton from "./ExportButton";
 import ResultsSummary from "./ResultsSummary";
+import PathBridge from "./PathBridge";
 
 // Recharts touches the DOM, so load it client-only.
 const MaturityRadar = dynamic(() => import("./MaturityRadar"), {
@@ -36,6 +37,7 @@ export default function Results({
   summaryLabel = "cybersecurity",
   reportTitle,
   standards,
+  showItBridge = false,
 }: {
   result: AssessmentResult;
   onRestart: () => void;
@@ -43,6 +45,8 @@ export default function Results({
   summaryLabel?: string;
   reportTitle?: string;
   standards?: StandardsSummary[];
+  /** Business path only: offer the technical (IT) assessment as a next step. */
+  showItBridge?: boolean;
 }) {
   const { maturity, swot, insurance, nextSteps } = result;
 
@@ -103,6 +107,8 @@ export default function Results({
           <InsurancePanel insurance={insurance} />
         </div>
       )}
+
+      {showItBridge && <PathBridge level={maturity.level} />}
 
       <div className="card">
         <ExportButton result={result} reportTitle={reportTitle} standards={standards} />

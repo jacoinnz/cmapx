@@ -14,6 +14,7 @@ export default function BusinessPage() {
       computeInsurance={true}
       resultsEyebrow="Your cyber maturity"
       reportTitle="Your Cybersecurity Health Check Report"
+      showItBridge
     />
   );
 }

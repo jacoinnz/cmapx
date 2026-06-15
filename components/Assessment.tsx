@@ -20,6 +20,8 @@ export interface AssessmentConfig {
   /** Word used in the summary sentence: "Your <label> maturity is …". */
   summaryLabel?: string;
   reportTitle?: string;
+  /** Business path only: offer the technical (IT) assessment as a next step on results. */
+  showItBridge?: boolean;
 }
 
 export default function Assessment(config: AssessmentConfig) {
@@ -82,6 +84,7 @@ export default function Assessment(config: AssessmentConfig) {
             summaryLabel={config.summaryLabel}
             reportTitle={config.reportTitle}
             standards={standardsSummary}
+            showItBridge={config.showItBridge}
           />
         ) : (
           <Wizard
@@ -102,8 +105,9 @@ export default function Assessment(config: AssessmentConfig) {
             ← Back to start
           </Link>
           <br />
-          This is an informational tool only. It is not affiliated with any insurer and does not sell
-          insurance. For decisions about cover, speak to a licensed adviser.
+          Your results are based on your own answers — this is a self-assessment to guide you, not a
+          formal audit or a guarantee of security. It is an informational tool only, not affiliated with
+          any insurer and does not sell insurance. For decisions about cover, speak to a licensed adviser.
         </p>
       </main>
     </>

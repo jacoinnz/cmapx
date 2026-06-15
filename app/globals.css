@@ -171,6 +171,16 @@ body {
 .home-link { color: var(--brand); font-weight: 600; text-decoration: none; }
 .home-link:hover { text-decoration: underline; }
 
+/* Business → IT "graduation" bridge on results */
+.bridge-card {
+  display: block; text-decoration: none; color: var(--ink);
+  border-left: 3px solid var(--brand);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.bridge-card:hover { transform: translateY(-2px); }
+.bridge-card .section-title { margin: 4px 0 6px; }
+.bridge-body { color: var(--ink-soft); margin: 0 0 16px; font-size: .95rem; }
+
 /* Standards tags on questions */
 .q-standards { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
 .std-tag {

@@ -90,9 +90,12 @@ Legend: ✅ covered · 🟡 partial / one path only · ❌ absent _(before this 
 | P3 | IT | Cloud/SaaS configuration hardening | `hd_cloud` |
 | P3 | IT | AI / shadow-IT governance | `gov_ai` |
 
+### Implemented 2026-06-15 (open items closed)
+- **Graduation bridge:** business results now show an adaptive "next step up" card linking to the IT path (`PathBridge`) — a direct nudge at Managed/Strong (level ≥ 4), framed as a future step otherwise.
+- **Self-assessment caveat:** results footer now states the result is a self-assessment to guide, not a formal audit or guarantee.
+
 ### Still open
-- Business path can't yet "graduate" a user toward the IT path (no bridging signal).
-- Self-attested, single-respondent (inherent to self-assessment).
+- _None from this comparison._ Future ideas live in the product backlog, not here.
 
 ---
 
